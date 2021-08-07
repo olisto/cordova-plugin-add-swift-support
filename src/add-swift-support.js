@@ -32,9 +32,24 @@ module.exports = context => {
       (context.hook === 'after_prepare' && context.cmdLine.includes('prepare')) ||
       (context.hook === 'after_plugin_add' && context.cmdLine.includes('plugin add'))) {
       getPlatformVersionsFromFileSystem(context, projectRoot).then(platformVersions => {
-        const IOS_MIN_DEPLOYMENT_TARGET = '7.0';
+        const IOS_MIN_DEPLOYMENT_TARGET = '9.0';
         const platformPath = path.join(projectRoot, 'platforms', 'ios');
         const config = getConfigParser(context, path.join(projectRoot, 'config.xml'));
+
+        // Override faulty function
+        config.getPreference = (attributeName, platform) => {
+          let elems = config.doc.findall(`./platform[@name="${platform}"]/preference`)
+
+          elems = Array.isArray(elems) ? elems : [elems];
+
+          const value = elems.filter(elem =>
+            elem.attrib.name.toLowerCase() === attributeName.toLowerCase()
+          ).map(filteredElems =>
+            filteredElems.attrib.value
+          ).pop();
+
+          return value || '';
+        }
 
         let bridgingHeaderPath;
         let bridgingHeaderContent;
