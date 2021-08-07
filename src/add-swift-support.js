@@ -173,8 +173,8 @@ module.exports = context => {
                 if (config.getPreference('UseLegacySwiftLanguageVersion', 'ios')) {
                   updateBuildProperty('SWIFT_VERSION', '2.3', buildConfig);
                   console.log('Use legacy Swift language version', buildConfig.name);
-                } else if (config.getPreference('UseSwiftLanguageVersion', 'ios')) {
-                  const swiftVersion = config.getPreference('UseSwiftLanguageVersion', 'ios');
+                } else if (config.getPreference('SwiftVersion', 'ios')) {
+                  const swiftVersion = config.getPreference('SwiftVersion', 'ios');
                   updateBuildProperty('SWIFT_VERSION', swiftVersion, buildConfig);
                   console.log('Use Swift language version', swiftVersion);
                 } else {
