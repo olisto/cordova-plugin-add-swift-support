@@ -144,19 +144,6 @@ module.exports = context => {
                 console.log('Update IOS build setting ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES to: YES', 'for target', productName, 'for build configuration', buildConfig.name);
               }
 
-              let ldRunpathSearchPaths = xcodeProject.getBuildProperty('LD_RUNPATH_SEARCH_PATHS', buildConfig.name);
-              if (ldRunpathSearchPaths === undefined || ldRunpathSearchPaths.indexOf('"@executable_path/Frameworks"') === -1) {
-                if (ldRunpathSearchPaths === undefined) {
-                  ldRunpathSearchPaths = ['"$(inherited)"', '"@executable_path/Frameworks"'];
-                } else if (typeof ldRunpathSearchPaths === 'string') {
-                  ldRunpathSearchPaths = [ldRunpathSearchPaths, '"@executable_path/Frameworks"'];
-                } else if (Array.isArray(ldRunpathSearchPaths)) {
-                  ldRunpathSearchPaths.push('"@executable_path/Frameworks"');
-                }
-                xcodeProject.updateBuildProperty('LD_RUNPATH_SEARCH_PATHS', ldRunpathSearchPaths, buildConfig.name);
-                console.log('Update IOS build setting LD_RUNPATH_SEARCH_PATHS to:', ldRunpathSearchPaths, 'for target', productName, 'for build configuration', buildConfig.name);
-              }
-
               let searchPath = getBuildProperty('LD_RUNPATH_SEARCH_PATHS', buildConfig);
               if (typeof searchPath === 'undefined') {
                 updateBuildProperty('LD_RUNPATH_SEARCH_PATHS', '"@executable_path/Frameworks"', buildConfig);
