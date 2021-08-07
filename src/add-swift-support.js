@@ -133,6 +133,7 @@ module.exports = context => {
           for (configName in buildConfigs) {
             if (!COMMENT_KEY.test(configName)) {
               buildConfig = buildConfigs[configName];
+              let productName = getBuildProperty('PRODUCT_NAME', buildConfig);
               if (parseFloat(getBuildProperty('IPHONEOS_DEPLOYMENT_TARGET', buildConfig)) < parseFloat(IOS_MIN_DEPLOYMENT_TARGET)) {
                 updateBuildProperty('IPHONEOS_DEPLOYMENT_TARGET', IOS_MIN_DEPLOYMENT_TARGET, buildConfig);
                 console.log('Update IOS project deployment target to:', IOS_MIN_DEPLOYMENT_TARGET, 'for target', productName, 'for build configuration', buildConfig.name);
