@@ -102,7 +102,7 @@ module.exports = context => {
                 console.log('Will not set SWIFT_OBJC_BRIDGING_HEADER for', productName);
               } else {
                 updateBuildProperty('SWIFT_OBJC_BRIDGING_HEADER', bridgingHeaderProperty, buildConfig);
-                console.log('Update IOS build setting SWIFT_OBJC_BRIDGING_HEADER to:', bridgingHeaderProperty, 'for build configuration', buildConfig.name);
+                console.log('Update IOS build setting SWIFT_OBJC_BRIDGING_HEADER to:', bridgingHeaderProperty, 'for target', productName, 'for build configuration', buildConfig.name);
               }
             }
           }
@@ -135,12 +135,12 @@ module.exports = context => {
               buildConfig = buildConfigs[configName];
               if (parseFloat(getBuildProperty('IPHONEOS_DEPLOYMENT_TARGET', buildConfig)) < parseFloat(IOS_MIN_DEPLOYMENT_TARGET)) {
                 updateBuildProperty('IPHONEOS_DEPLOYMENT_TARGET', IOS_MIN_DEPLOYMENT_TARGET, buildConfig);
-                console.log('Update IOS project deployment target to:', IOS_MIN_DEPLOYMENT_TARGET, 'for build configuration', buildConfig.name);
+                console.log('Update IOS project deployment target to:', IOS_MIN_DEPLOYMENT_TARGET, 'for target', productName, 'for build configuration', buildConfig.name);
               }
 
               if (getBuildProperty('ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES', buildConfig) !== 'YES') {
                 updateBuildProperty('ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES', 'YES', buildConfig);
-                console.log('Update IOS build setting ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES to: YES', 'for build configuration', buildConfig.name);
+                console.log('Update IOS build setting ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES to: YES', 'for target', productName, 'for build configuration', buildConfig.name);
               }
 
               let ldRunpathSearchPaths = xcodeProject.getBuildProperty('LD_RUNPATH_SEARCH_PATHS', buildConfig.name);
@@ -153,17 +153,17 @@ module.exports = context => {
                   ldRunpathSearchPaths.push('"@executable_path/Frameworks"');
                 }
                 xcodeProject.updateBuildProperty('LD_RUNPATH_SEARCH_PATHS', ldRunpathSearchPaths, buildConfig.name);
-                console.log('Update IOS build setting LD_RUNPATH_SEARCH_PATHS to:', ldRunpathSearchPaths, 'for build configuration', buildConfig.name);
+                console.log('Update IOS build setting LD_RUNPATH_SEARCH_PATHS to:', ldRunpathSearchPaths, 'for target', productName, 'for build configuration', buildConfig.name);
               }
 
               let searchPath = getBuildProperty('LD_RUNPATH_SEARCH_PATHS', buildConfig);
               if (typeof searchPath === 'undefined') {
                 updateBuildProperty('LD_RUNPATH_SEARCH_PATHS', '"@executable_path/Frameworks"', buildConfig);
-                console.log('Update IOS build setting LD_RUNPATH_SEARCH_PATHS to: @executable_path/Frameworks', 'for build configuration', buildConfig.name);
+                console.log('Update IOS build setting LD_RUNPATH_SEARCH_PATHS to: @executable_path/Frameworks', 'for target', productName,'for build configuration', buildConfig.name);
               } else if (searchPath.indexOf('@executable_path/Frameworks') < 0) {
                 searchPath += ' "@executable_path/Frameworks"';
                 updateBuildProperty('LD_RUNPATH_SEARCH_PATHS', searchPath, buildConfig);
-                console.log('Update IOS build setting LD_RUNPATH_SEARCH_PATHS to:', searchPath, 'for build configuration', buildConfig.name);
+                console.log('Update IOS build setting LD_RUNPATH_SEARCH_PATHS to:', searchPath, 'for target', productName, 'for build configuration', buildConfig.name);
               }
 
               if (typeof getBuildProperty('SWIFT_VERSION', buildConfig) === 'undefined') {
@@ -183,7 +183,7 @@ module.exports = context => {
               if (buildConfig.name === 'Debug') {
                 if (getBuildProperty('SWIFT_OPTIMIZATION_LEVEL', buildConfig) !== '"-Onone"') {
                   updateBuildProperty('SWIFT_OPTIMIZATION_LEVEL', '"-Onone"', buildConfig);
-                  console.log('Update IOS build setting SWIFT_OPTIMIZATION_LEVEL to: -Onone', 'for build configuration', buildConfig.name);
+                  console.log('Update IOS build setting SWIFT_OPTIMIZATION_LEVEL to: -Onone', 'for target', productName, 'for build configuration', buildConfig.name);
                 }
               }
             }
