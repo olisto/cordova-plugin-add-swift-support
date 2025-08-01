@@ -75,7 +75,7 @@ module.exports = context => {
           return;
         }
 
-        projectName = config.name();
+        projectName = 'App';
         projectPath = path.join(platformPath, projectName);
         pbxprojPath = path.join(platformPath, projectName + '.xcodeproj', 'project.pbxproj');
         xcodeProject = xcode.project(pbxprojPath);
